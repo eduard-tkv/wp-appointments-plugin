@@ -43,7 +43,6 @@ defined('ABSPATH') or die ('Cannot access pages directly.');
  *    - Drops Appointments table usually upon deactivation
  * dropPaymentsTable()
  *    - Drops Payments table usually upon deactivation  
- * 
  */
 
 class ManipulateTables
@@ -67,6 +66,7 @@ class ManipulateTables
         $this->charset_collate = $wpdb->get_charset_collate();
     }
 
+    // Creates a tabs table, used to decide which tab should be visible when page loads
     public function tabs()
     {
         global $wpdb;
