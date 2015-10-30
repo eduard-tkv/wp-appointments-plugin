@@ -1,7 +1,10 @@
 THIS IS THE FREEWARE VERSION OF DELTA APPOINTMENTS
 
+This is the first working version. Changes are being made on a continuous basis with regard to
+file names, function names, code optimization etc.
+
 1. CROSS REFERENCING
-This is how various pieces of code are cross-referenced. Any function will have a number matching 
+This is how various pieces of code are cross-referenced, ideally and in theory. Any function will have a number matching 
 the code line number indicated in the preceding comments e.g. 77. A reference to a number is made
 using the file name, the function name and the number e.g. models.php #223. The function name should be
 used whenever possible. In jQuery this is bit problematic as it could be something like 

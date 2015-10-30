@@ -140,6 +140,8 @@ function ed_da_delta_appointments_addcustomer_action_callback() {
     $customerDetailsTable['birth_date'] = isset($_POST['birthdate']) ? sanitizeInput($_POST['birthdate'], "notes") : "";
     $customerDetailsTable['notes'] = isset($_POST['cnotes']) ? sanitizeInput($_POST['cnotes'], "notes") : "";
     
+    $customerDetailsTable['birth_date'] = convertDate($customerDetailsTable['birth_date'], false);
+    
     //Calling nameLowUp #79 to convert the first char to upper and the rest to lowercase
     $customerDetailsTable['first_name'] = nameLowUp($customerDetailsTable['first_name']);
     $customerDetailsTable['middle_name'] = nameLowUp($customerDetailsTable['middle_name']);
@@ -317,6 +319,8 @@ function ed_da_delta_appointments_fulledit_action_callback()
         $customerDetails['birth_date'] = isset($_POST['birth_date']) ? sanitizeInput($_POST['birth_date'], "notes") : "";
         $customerDetails['notes'] = isset($_POST['notes']) ? sanitizeInput($_POST['notes'], "notes") : "";
 
+        $customerDetails['birth_date'] = convertDate($customerDetails['birth_date'], false);
+        
         //Calling nameLowUp #79 to convert the first char to upper and the rest to lowercase
         $customerDetails['first_name'] = nameLowUp($customerDetails['first_name']);
         $customerDetails['middle_name'] = nameLowUp($customerDetails['middle_name']);
@@ -416,6 +420,8 @@ function ed_da_delta_appointments_apptAndPay_action_callback()
         $appointmentDetails['purpose'] = isset($_POST['purpose']) ? sanitizeInput($_POST['purpose'], "notes") : "";
         $appointmentDetails['notes'] = isset($_POST['appt_notes']) ? sanitizeInput($_POST['appt_notes'], "notes") : "";
         
+        $appointmentDetails['date'] = convertDate($appointmentDetails['date'], false);
+        
         $returnedApptAddMsg = $workWithModels->makeApptandPay($customerDetails['id_cd'], $appointmentDetails, $actionName);
         
         // Refer to views.php#32 about table_tabs
@@ -434,6 +440,8 @@ function ed_da_delta_appointments_apptAndPay_action_callback()
         $paymentDetails['amount'] = isset($_POST['amount']) ? sanitizeInput($_POST['amount'], "an") : "";
         $paymentDetails['purpose'] = isset($_POST['purpose']) ? sanitizeInput($_POST['purpose'], "notes") : "";
         $paymentDetails['notes'] = isset($_POST['notes']) ? sanitizeInput($_POST['notes'], "notes") : "";
+        
+        $paymentDetails['date'] = convertDate($paymentDetails['date'], false);
         
         $returnedEnterPayment = $workWithModels->makeApptandPay($customerDetails['id_cd'], $paymentDetails, $actionName);
         
@@ -455,8 +463,6 @@ function ed_da_delta_appointments_apptAndPay_action_callback()
 
 /* #441
  * Function to retrieve appointment times to avoid conflict and delete an appointment
- * NOTE. Needs to be renamed when you have time
- * NOTE2. Time sanitization needs to be added i.e. preserve colon : in the string
  */
 add_action( 'wp_ajax_ed_da_delta_appointments_enterApptPay_action', 'ed_da_delta_appointments_enterApptPay_action_callback' );
 function ed_da_delta_appointments_enterApptPay_action_callback()
@@ -468,6 +474,8 @@ function ed_da_delta_appointments_enterApptPay_action_callback()
     $id_cd = isset($_POST['id_cd']) ? sanitizeInput($_POST['id_cd'], "n") : "";
     $theTime = isset($_POST['time']) ? $_POST['time'] : "";
  
+    $theDate = convertDate($theDate, false);
+    
     $workWithModels = new ManipulateTables();
     
     //retrieve all appointment times
@@ -505,16 +513,18 @@ function ed_da_delta_appointments_delPay_action_callback()
     global $wpdb;
     
     $id_cd = isset($_POST['id_cd']) ? sanitizeInput($_POST['id_cd'], "n") : "";
-    $payDate = isset($_POST['date']) ? sanitizeInput($_POST['date'], "notes") : "";
+    $payDate = isset($_POST['payDate']) ? sanitizeInput($_POST['payDate'], "notes") : "";
     $payAmount = isset($_POST['payAmount']) ? sanitizeInput($_POST['payAmount'], "notes") : "";
-    
+
+    $payDate = convertDate($payDate, false);
+
     $workWithModels = new ManipulateTables();
     
     // Refer to views.php#32 about table_tabs
     $table_tabs = $wpdb->prefix . 'ed_da_delta_appointments_tabs';
     $wpdb->update( $table_tabs, 
                     array( 
-                        'tab' => 'paymentsTab'
+                        'tabs' => 'paymentsTab'
                     ), 
                     array( 'id' => 1 ));
     

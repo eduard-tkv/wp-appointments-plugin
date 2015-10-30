@@ -36,7 +36,7 @@ jQuery(document).ready(function($)
     // and the search form underneath is still available for additional searches
     $("#searchResultsDiv").hide();
 
-/* #16
+/* #39
  * Add Customer function. Collects values from the New Customer Form and 
  * sends them to ed-da-delta-appointments-plugin.php::ed_da_delta_appointments_addcustomer_action_callback #110 for creating a new record
  * If a positive response is received the page will reload to reflect changes.
@@ -67,7 +67,7 @@ jQuery(document).ready(function($)
          var theYear = $("#theYear option:selected").text() == "Year" ? "" : $("#theYear option:selected").text();
          data['country'] = $("#country option:selected").text() == "Country" ? "" : $("#country option:selected").text();
          
-         // Concatenating birth date, if nothing selected it would be an empty string
+         // Concatenating birth date, if nothing selected it would be an empty string - almost an empty string
          data['birthdate'] = theDay + " " + theMonth + " " + theYear;
          
         // Creating a count object, it will be passed by reference to a validation function
@@ -95,7 +95,7 @@ jQuery(document).ready(function($)
         validateMe(data['postalcode'], "#postal_code", "Postal Code can contain numbers and letters only.", 0, countErr, "an");
         
         // dataCheck contains first and last name, used to check if there is already a record with
-        // such name, if it exists the user is prompt to confirm new record creation anyway
+        // such name, if it exists the user is prompted to confirm new record creation anyway
         // If it doesn't exist creates a new record without a prompt.
         var dataCheck = {
            'action':  'ed_da_delta_appointments_checkifexists_action', 
@@ -108,7 +108,7 @@ jQuery(document).ready(function($)
     }); 
 // END Add Customer
 
-/* #97
+/* #111
  * Search function. Invoked by buttonSearch button. 
  */
     jQuery( document ).on( "click", "#buttonSearch", function()
@@ -134,11 +134,12 @@ jQuery(document).ready(function($)
          var theYear = $("#search_Year option:selected").text() == "Year" ? "" : $("#search_Year option:selected").text();
          data['country'] = $("#search_country option:selected").text() == "Country" ? "" : $("#search_country option:selected").text();
          
-         // Concatenating birth date, if nothing selected it would be an empty string
+         // Concatenating birth date, if nothing selected it would be an almost empty string
          data['birthdate'] = theDay + " " + theMonth + " " + theYear;
          
         //alert(data['birthdate']); alert(data['country']);
-        
+       
+        // Sending to ed_da_delta_appointments_search_action in ed_da_delta_appointments.php
         jQuery.post(ajax_object.ajax_url, data, function(response) 
         {
             //alert('this is search response = '+response);
@@ -147,6 +148,7 @@ jQuery(document).ready(function($)
             if( response == 0 ) { searchResultsBody = '<h5><code>No records have been found.</code></h5>'; }
             else { searchArray = JSON.parse(response); }
             
+            //Displaying previously hidden #searchResultsDiv so we can populate it with search results
             jQuery("#searchResultsDiv").show();
             
             var i;
@@ -159,24 +161,21 @@ jQuery(document).ready(function($)
                                 + '</td><td>' + searchArray[i].phone_cell
                                 + '</td><td name ="' + searchArray[i].id_cd + '"><a name="getEditValues" id="makeEdit">Edit</a> | <a name="delRecord" id="delRecord">Delete</a> | <a name="makeAppt" id="apptPayForm">Make Appt</a> | <a name="enterPay" id="apptPayForm">Enter Payment</a> | <a name="displayInfo" id="displayInfo">Display All Info</a></td></tr>';
         }
-            
-            // Goes into views.php#170
+            // Populating #searchResultsBody with search results
             jQuery('#searchResultsBody').html(searchResultsBody);
-            //document.getElementById("searchResultsBody").innerHTML = searchResultsBody;
-            //jQuery("#searchResultsDiv").show();
             document.getElementById("customerSearchForm").reset();
             
         });
     });//jQuery Search End
     
     
-/* #157 - makeEdit
+/* #172 - makeEdit
  * Retrieves values for editing a record, edit form will be populated with these values
+ * Edit link/button appears in search results
  */
     jQuery( document ).on( "click", "#makeEdit", function()
     {
-        //alert('inside returneditvales');
-        //parentName is the record's ID from Database
+        //parentName is the record's ID from Database - already set when populating search results
         //thisName is the action that needs to be taken i.e. edit, delete etc
         var parentName = $( this ).parent().attr( 'name' );
         var thisName = $( this ).attr( 'name' );// value = returnEdit because it will only retrieve values from db for editing
@@ -193,26 +192,21 @@ jQuery(document).ready(function($)
         jQuery.post(ajax_object.ajax_url, data, function(response){
                 editKeys = [];
                 editValues = [];
-
-                //alert(response);
                 var editObj = JSON.parse(response);
-                
                 var day, year, month;
-                
-                //alert(editObj);
                 
                 // Populate editValues and editKeys with keys and values from db response i.e. City:Toronto etc
                 // editValues is Toronto, editKeys is City. Separating them for easy population later on
                 for(key in editObj[0]) 
                 { 
-                    // Storing the date keys separately i.e. 20 January 1990 becomes
-                    // day = 20, month = January, year = 1990
+                    // Storing the date keys separately i.e. 1990-10-20 becomes 
+                    // day = 20, month = October, year = 1990
                     // As it wouldn't be a text field, but 3 separate select option lists
                     if(key == "Birth_Date")
                     {
-                        day = editObj[0]["Birth_Date"].substr(0,2);
-                        year = editObj[0]["Birth_Date"].substr((editObj[0]["Birth_Date"].length-4),4)
-                        month = editObj[0]["Birth_Date"].slice(3,(editObj[0]["Birth_Date"].length-5))
+                        day = editObj[0]["Birth_Date"].substr(8,2);
+                        year = editObj[0]["Birth_Date"].substr(0, 4)
+                        month = editObj[0]["Birth_Date"].substr(5, 2)
                         editValues.push(day); editKeys.push("theDay");
                         editValues.push(month); editKeys.push("theMonth");
                         editValues.push(year); editKeys.push("theYear");
@@ -264,7 +258,6 @@ jQuery(document).ready(function($)
                 } 
                 editResultsBody += '<div class="form-group"><div class="col-sm-offset-1 col-sm-11"><button type="button" id="buttonSave" class="btn btn-default">Save</button><button type="button" id="buttonCancel" onclick="reloadz()" class="btn btn-default">Cancel</button></div></div></form>';
 
-                //alert(editResultsBody);
                 document.getElementById("makeSearch").innerHTML = editResultsBody;
                 //console.log(editKeys);
                 //console.log(editValues);
@@ -274,15 +267,14 @@ jQuery(document).ready(function($)
     });
     
 
-/* #257
- * To update tables, clicking "Save" button after existing values have been retrieved
- * by clicking "Edit"
- * New values are collected from the edit form and sent to ed-da-delta-appointments-plugin.php#276
+/* #275
+ * Collects data from edit form, invoked by clicking "Save" button after existing values have been retrieved
+ * by clicking "Edit" link that appears in search results
+ * New values are collected from the edit form and sent to ed-da-delta-appointments-plugin.php
  */
     jQuery( document ).on( "click", "#buttonSave", function()
     {
         var inputValuesArr = [];
-        
         var i;
         var idName;
         var day, year, month;
@@ -293,7 +285,7 @@ jQuery(document).ready(function($)
         for(i = 0; i < editValues.length; i++)
         {   
             // These two are "i" address table id and customer details table id_cd
-            // editValues is a global array, values have been populated in prev step
+            // editValues is a global array, values have been populated in previous step
             // when retrieving edit values
             if(i == 0 || i == 11) { inputValuesArr.push(editValues[i]); }
             else if(i == 7 || i == 8 || i == 9)
@@ -325,11 +317,13 @@ jQuery(document).ready(function($)
         }
        
         // Declaring an object countErr and setting count property to 0. This object is passed to the validation function
-        // and it set to 1 if erros encountered.
+        // by reference and it set to 1 if errors encountered.
         var countErr = {};
         countErr['count'] = 0;
         
         newValues.birth_date = day + " " + month + " " + year;
+        confirmSubmit["Birth Date"] = newValues.birth_date;
+        
         newValues.id_cd = editValues[0]; // id_cd is the primary id for customer details table
         newValues.id = editValues[11]; // id is the id for address table where id_cd is the foreign key
         newValues.action = 'ed_da_delta_appointments_fulledit_action';
@@ -356,6 +350,7 @@ jQuery(document).ready(function($)
         // If countErr[count] stays at 0 it means there are no errors.
         if(!countErr['count'])
         {
+            // Confirm pop up requires prettification.
             confirmValue = "Please confirm submission:\n\n";
             for(key in confirmSubmit)
             {
@@ -364,7 +359,7 @@ jQuery(document).ready(function($)
             
             if(confirm(confirmValue))
             {
-                jQuery.post(ajax_object.ajax_url, newValues, function(response) 
+                jQuery.post(ajax_object.ajax_url, newValues, function(response)
                 {   
                     document.getElementById("makeSearch").innerHTML = '<h5><mark>' + response + '. Click Search for a new search, or Refresh to see changes.</mark></h5>' +
                         '<button type="button" id="buttonSearchAgain" class="btn btn-default">Search Again</button>' +
@@ -377,8 +372,9 @@ jQuery(document).ready(function($)
 
     });//#buttonSave End
     
-/* #365
- * Creates a Search Again form, a search form that appears underneath of first time search results
+/* #378
+ * Creates a Search Again form, a search form that appears underneath the first time search results
+ * so the user can search repeatedly.
  */
     jQuery( document ).on( "click", "#buttonSearchAgain", function()
     {
@@ -421,16 +417,17 @@ jQuery(document).ready(function($)
     });
     
     
-/* #426
- * Display all info, display Delete (deletes the record), Make Appointment, Enter Payment links
+/* #423
+ * Display all info pertaining to a certain record, display Delete (deletes the record), Make Appointment, Enter Payment links
+ * the 'display all info' link/button appears in search results
 */
     jQuery( document ).on( "click", "#displayInfo", function()
     {  
-        var parentName = $( this ).parent().attr( 'name' );//id_cd
+        var parentName = $( this ).parent().attr( 'name' );//id_cd - primary id, has been already set in search results, not displayed
         
         //alert(parentName);
         
-        //Value whether it is to display info or other action
+        //Value whether it is to display info or perform a different action
         var thisName = $( this ).attr( 'name' );
         var data = {};
         
@@ -450,17 +447,20 @@ jQuery(document).ready(function($)
         
     });
     
-/* #438
- * Creates a new appointment or new payment form.
+/* #453
+ * Creates a new appointment or new payment form and populates.
+ * 'Make Appointment' or 'Enter Payment' links/buttons appear in search results
  */
     jQuery( document ).on( "click", "#apptPayForm", function()
     {
+        // Make Appt or Enter Payment - depending on which link/button the user clicked
         var apptOrPay = $(this).attr('name');
         var i;
-        
-        //alert(apptOrPay);
- 
+        // id_cd is the primary id for customer table, already set when performing search
         var id_cd = $( this ).parent().attr('name');
+        
+        // Setting distinct first and last name HTML id tags (by adding id_cd) so we can display
+        // the correct name if there are more than one search result rows
         var f_nameId = '#f_name' + id_cd;
         var l_nameId = '#l_name' + id_cd;
         var f_name = $(f_nameId).text();
@@ -516,6 +516,7 @@ jQuery(document).ready(function($)
             apptAndPayForm += '</div></div><div class="form-group"><div class="col-sm-offset-1 col-sm-11"><button type="button" id="buttonEnterPay" name="' + id_cd + '" class="btn btn-default">Enter Payment</button></div></div></form></div><!--End of "makeSearch" div--><div class="col-sm-offset-1"><span id="errMsg" class="text-danger"></span></div>';
         }
         
+        // Displaying the form with populated values
         jQuery("#makeSearch").html(apptAndPayForm);
         //alert(apptAndPayForm);
         
@@ -525,35 +526,28 @@ jQuery(document).ready(function($)
             'action_name': 'retrieveAllApptTimes'
         };
         
+        // Retrieving all appoinments times for a certain record to check if there are conflicting
+        // times when person tries to create a new appointment in #542 (#buttonMakeAppt)
         jQuery.post(ajax_object.ajax_url, data, function(response) 
-        {
+        { 
             allApptTimes = JSON.parse(response);
-            console.log(allApptTimes);
+            //console.log(allApptTimes);
         });
         
     });
 
-/* #521
- * "Make Appointment" button on the Make Appointment form after you click Display All Info
+/* #542
+ * "Make Appointment" button on the Make Appointment form created and populated with first and last names.
  * Collects appointment info vield values for further insertion into the db
  */
     jQuery( document ).on( "click", "#buttonMakeAppt", function()
     {
-        //console.log(allApptTimes);
-        //console.log(allApptTimes["time"]);
-        //alert('inside make appt');
         var i = 0;
         var theFlag = 1;
         var goFlag = 0;
         var length = 0;
         var apptData = {};
         
-        /*
-        if("Year" == $( "#theYear option:selected" ).text())
-        {
-            document.getElementById(k).style.color = "#D11919";  $("#errMsg").text("Please correct highlited errors");
-        }
-        */
         apptData.theYear = $( "#theYear option:selected" ).text();
         apptData.theMonth = $( "#theMonth option:selected" ).text();
         apptData.theDay = $( "#theDay option:selected" ).text();
@@ -561,16 +555,12 @@ jQuery(document).ready(function($)
         apptData.theMin = $( "#theMin option:selected" ).text();
         apptData.theHalfDay = $( "#theHalfDay option:selected" ).text();
 
-        //alert("theYear".substr(3));
-
         //Checking to see if year, month and time etc were selected, otherwise it will be highlighted and flag set to 0
         $.each(apptData, function( k, v ) {
             //i.e. if Year == Year, which means nothing was selected
             if( k.substr(3) != v ) 
             { 
                 apptData[k] = v; document.getElementById(k).style.color = "#000000"; $("#errMsg").text(""); 
-                //theFlag = 1;
-                //alert(apptData.theYear + v);
             }
             else 
             { 
@@ -581,23 +571,15 @@ jQuery(document).ready(function($)
         
         apptData.action = "ed_da_delta_appointments_apptAndPay_action";
         apptData.venue = $( "#makeappt_venue" ).val();
-        //alert(apptData.venue);
-        
         apptData.purpose = $( "#makeappt_purpose" ).val();
-        //alert(apptData.purpose);
-        
         apptData.appt_notes = $( "#makeappt_notes" ).val();
-        //alert(apptData.appt_notes);
-        
         apptData.action_name = "makeAppt";
         apptData.id_cd = $(this).attr('name');
         apptData.date = $( "#theDay option:selected" ).text() + " " + $( "#theMonth option:selected" ).text() + " " + $( "#theYear option:selected" ).text();
         apptData.time = $( "#theHour option:selected" ).text() + ":" + $( "#theMin option:selected" ).text() + " " + $( "#theHalfDay option:selected" ).text();
         
-        
-        //Checking if allApptTimes is empty, if its empty then there are no previous appointments, so we can skip the check
+        //Checking if allApptTimes is empty, if its empty then there are no previous appointments for that time, so we can skip the check
         //otherwise we check user input with previous appointments to avoid duplicate appts on the same day
-
         if(!isObjEmpty(allApptTimes))
         {
             for (i in allApptTimes) {
@@ -608,7 +590,7 @@ jQuery(document).ready(function($)
 
              //allApptTimes contains dates and times for this record, it is global and was generated in the previous step
              //when displaying make appointment form. allApptTimes = [{time: "04:40 PM", date: "02 January 2017"}, {time: "03:40 PM", date: "10 January 2013"}];
-             //checking here to see that there is no duplicate appt for the same time on that date
+             //checking here to see that there is no duplicate appt for the same time on that day
             $.each(allApptTimes, function( k, v ) {
             //k is time and date, v is 03 January 2015 and 05:40 PM
                 for(i=0; i< length; i++)
@@ -618,17 +600,13 @@ jQuery(document).ready(function($)
             });
         }
         
-        
-        //It may show allApptTimes as not declared, but they are global
+        //It may show allApptTimes as not declared, but it is global, all global vars are in helpers.js
         //alert('this is allappttime[0].time and date = ' + allApptTimes[0].time + " " + allApptTimes[0].date)
         
-        //alert(apptData.date); alert(apptData.time);
-
         if (theFlag == 1)
         {
             jQuery.post(ajax_object.ajax_url, apptData, function(response) 
             {
-                //alert(response);
                 if ( response == 1 ) 
                 { 
                     alert("A new appointment has been created. The page will refresh now to reflect changes. Check Appointments tab"); 
@@ -659,12 +637,6 @@ jQuery(document).ready(function($)
         var length = 0;
         var payData = {};
         
-        /*
-        if("Year" == $( "#theYear option:selected" ).text())
-        {
-            document.getElementById(k).style.color = "#D11919";  $("#errMsg").text("Please correct highlited errors");
-        }
-        */
         payData.theYear = $( "#theYear option:selected" ).text();
         payData.theMonth = $( "#theMonth option:selected" ).text();
         payData.theDay = $( "#theDay option:selected" ).text();
@@ -689,14 +661,8 @@ jQuery(document).ready(function($)
 
         payData.action = "ed_da_delta_appointments_apptAndPay_action";
         payData.amount = $( "#makeappt_amount" ).val();
-        //alert(apptData.venue);
-        
         payData.purpose = $( "#makeappt_purpose" ).val();
-        //alert(apptData.purpose);
-        
         payData.notes = $( "#makeappt_notes" ).val();
-        //alert(apptData.appt_notes);
-        
         payData.action_name = "enterPay";
         payData.id_cd = $(this).attr('name');
         payData.date = $( "#theDay option:selected" ).text() + " " + $( "#theMonth option:selected" ).text() + " " + $( "#theYear option:selected" ).text();
@@ -742,9 +708,6 @@ jQuery(document).ready(function($)
             {
                 alert("Action was cancelled");
             }
-            
-            
-            
     
     });
 
@@ -763,7 +726,7 @@ jQuery(document).ready(function($)
         var date = $(this).parent().attr("axis");
 
         //alert('actionname: '+ action + ' and idcd: ' +id_cd + ' date is: ' + date + ' time is: ' + time);
-        if(confirm("The record will be deleted."))
+        if(confirm("The appointment will be deleted."))
         {
         var data = {
             'action' : 'ed_da_delta_appointments_enterApptPay_action',
@@ -772,10 +735,9 @@ jQuery(document).ready(function($)
             'time': time,
             'date': date
             };
-
+            
         jQuery.post(ajax_object.ajax_url, data, function(response) 
         {
-            //alert('response: ' + response);
             if(response == false) { alert('No appointments deleted or there was an error.'); }
             else 
             { 
@@ -825,11 +787,9 @@ jQuery(document).ready(function($)
                 'payDate': payDate,
                 'payAmount': payAmount
                 };
-
+                
             jQuery.post(ajax_object.ajax_url, data, function(response) 
             {
-                //alert('response: ' + response);
-
                 if(response == false) { alert('No payment records were deleted or there was an error.'); }
                 else 
                 { 

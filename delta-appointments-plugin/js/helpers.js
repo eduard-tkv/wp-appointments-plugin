@@ -161,9 +161,9 @@ function getSelectListExt(id, theClass, selected)
     var theYear = "";
     var theMonth = "";
     var theDay = "";
-    var months = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
+    var months = ["01January","02February","03March","04April","05May","06June","07July","08August","09September","10October","11November","12December"];
     var i;
-//MAKE IT WORK WITH #212 APPOINTMENTS.JS    
+
     switch(id)
     {
         case "theDay":
@@ -200,8 +200,8 @@ function getSelectListExt(id, theClass, selected)
             
             for(i = 0; i<months.length; i++)
             {
-                if(months[i] == selected) { theMonth += '<option selected>' + months[i] + '</option>'; }
-                else { theMonth += '<option>' + months[i] + '</option>'; }
+                if(months[i].substr(0,2) == selected) { theMonth += '<option selected>' + months[i].substr(2) + '</option>'; }
+                else { theMonth += '<option>' + months[i].substr(2) + '</option>'; }
             }
             theMonth += '</select>';
             return theMonth;
