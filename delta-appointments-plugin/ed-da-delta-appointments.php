@@ -8,7 +8,6 @@ Author: Eduard T
 Author URI: http://www.deltadigital.ca
 License: GPL
 */
-
 defined('ABSPATH') or die ('Cannot access pages directly.');
 
 include_once 'views/views.php';
@@ -201,7 +200,7 @@ function ed_da_delta_appointments_addcustomer_action_callback() {
 	wp_die();
 }
 
-/* #201
+/* #203
  * Checks if the record already exists. Checking only first and last name and if it exists the user is given a choice
  * to create a record anyway or abort
  */ 
@@ -220,9 +219,9 @@ function ed_da_delta_appointments_checkifexists_action_callback() {
     wp_die();
 }
 
-/* #220
- * Search function. Receives search parameters from controller.js#140
- * and then calls makeSearch in models.php#294
+/* #222
+ * Search function. Receives search parameters from controller.js
+ * and then calls makeSearch in models.php
  */
 add_action( 'wp_ajax_ed_da_delta_appointments_search_action', 'ed_da_delta_appointments_search_action_callback' );
 function ed_da_delta_appointments_search_action_callback() {
@@ -277,11 +276,11 @@ function ed_da_delta_appointments_search_action_callback() {
    wp_die();
 }
 
-/* #263
+/* #279
  * Fulledit Action. Either retrieves values from the db for editing/updating or
  * saves new values from edit/update form into a db table.
- * controller.js::makeEdit#161 - for retrieving values 
- * and controller.js::buttonSave#270 - for saving new/updated values
+ * controller.js::makeEdit - for retrieving values 
+ * and controller.js::buttonSave - for saving new/updated values
  */
 add_action( 'wp_ajax_ed_da_delta_appointments_fulledit_action', 'ed_da_delta_appointments_fulledit_action_callback' );
 function ed_da_delta_appointments_fulledit_action_callback()
@@ -377,7 +376,7 @@ function ed_da_delta_appointments_fulledit_action_callback()
     wp_die();
 }
 
-/* #361
+/* #379
  * Function to display all info. Retrieves all fields from all tables to display full info
  * for a particular record
  */
@@ -396,7 +395,7 @@ function ed_da_delta_appointments_displayinfo_action_callback()
     wp_die();
 }
 
-/* #380
+/* #398
  * Function to enter appointment or payment details in the respective database table
  */
 add_action( 'wp_ajax_ed_da_delta_appointments_apptAndPay_action', 'ed_da_delta_appointments_apptAndPay_action_callback' );
@@ -412,6 +411,7 @@ function ed_da_delta_appointments_apptAndPay_action_callback()
     $actionName = isset($_POST['action_name']) ? sanitizeInput($_POST['action_name'], "a") : "";
     $customerDetails['id_cd'] = isset($_POST['id_cd']) ? sanitizeInput($_POST['id_cd'], "n") : "";
 
+    // Enter appointment detaiils if actionName is makeAppt
     if ($actionName == 'makeAppt') 
     {   
         $appointmentDetails['date'] = isset($_POST['date']) ? sanitizeInput($_POST['date'], "notes") : "";
@@ -434,6 +434,7 @@ function ed_da_delta_appointments_apptAndPay_action_callback()
         
         echo "returned msg " + $returnedApptAddMsg;
     }
+    // Enter payment details if actionName is enterPay
     else if ($actionName == 'enterPay')
     {   
         $paymentDetails['date'] = isset($_POST['date']) ? sanitizeInput($_POST['date'], "notes") : "";
@@ -461,8 +462,9 @@ function ed_da_delta_appointments_apptAndPay_action_callback()
     wp_die();
 }
 
-/* #441
- * Function to retrieve appointment times to avoid conflict and delete an appointment
+/* #465
+ * Function to retrieve appointment times to avoid time conflict and 
+ * also serves to delete an appointment
  */
 add_action( 'wp_ajax_ed_da_delta_appointments_enterApptPay_action', 'ed_da_delta_appointments_enterApptPay_action_callback' );
 function ed_da_delta_appointments_enterApptPay_action_callback()
@@ -504,7 +506,7 @@ function ed_da_delta_appointments_enterApptPay_action_callback()
     wp_die();
 }
 
-/* #484
+/* #509
  * Payment Delete: Used to delete payments
 */
 add_action( 'wp_ajax_ed_da_delta_appointments_delPay_action', 'ed_da_delta_appointments_delPay_action_callback' );
@@ -534,7 +536,7 @@ function ed_da_delta_appointments_delPay_action_callback()
 }
 
 
-/* $508
+/* $539
  * Upcoming appointment notifications.
  * Still working on it. 
  * wp_schedule_event works when someone visits the website
@@ -545,7 +547,7 @@ function appointmentsNotify()
 {   
     global $wpdb;
     
-    wp_mail( "imavegan.dude@gmail.com", "twice daily notifications", "twice daily notifications" );
+    wp_mail( "my_email@gmail.com", "twice daily notifications", "twice daily notifications" );
 
    
 }

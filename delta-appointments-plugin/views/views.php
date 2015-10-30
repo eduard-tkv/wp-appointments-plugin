@@ -3,8 +3,18 @@
 /*
  * Class DeltaAppointmentViews - creates HTML views
  * 
- * createAllTabs() 
- *    - Creates all tabs for HTML tabbed view
+ * public function createAllTabs() 
+ *    - Calls functions that create all tabs for HTML tabbed view
+ * private function searchTab($activeClass)
+ *    - Creates the Search tab, contains search fields
+ * private function viewRecordsTab($activeClass)
+ *    - Creates the Records tab, contains personal data for a record
+ * private function viewPaymentsTab($activeClass)
+ *    - Creates the Payments tab, contains payment data
+ * public function newRecordTab()
+ *    - Creates the New Record tab, contains fields for creation of new record
+ * private function viewAppointmentsTab($activeClass)
+ *    - Creates the Appointments tab, contains appointment data
  * 
  */
 

@@ -3,12 +3,23 @@
 defined('ABSPATH') or die ('Cannot access pages directly.');
 
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * helpers-views.php
+ * 
+ * function personalDataForm($search) 
+ *    returns a form with personal data fields i.e. name etc
+ * function addressForm
+ *    return a form with address fields
+ * function getSelectList($id, $class, $time)
+ *    returns drop-down list for year, month, day etc
+ * function selectCountry($search)
+ *    returns country drop-down list
+ * function convertDate($theDate, $direction)
+ *    converts 23 March 2015 to 2015-03-23 and vice versa
  */
 
-// Customer Details Table fields
+/* #20
+ *  Returns Customer Details (i.e. personal details) Table fields
+ */
 function personalDataForm($search)
 {
     /* The pattern
@@ -59,7 +70,9 @@ function personalDataForm($search)
     return $formToReturn;
 }
 
-// Address form fields
+/* #73
+ *  Returns Address form fields
+ */
 function addressForm($search)
 {
 
@@ -101,6 +114,9 @@ function addressForm($search)
 
 }
 
+/* #117
+ *  Returns drop-down lists for year, month, day
+ */
 function getSelectList($id, $class, $time)
 {
     $theYear = "";
@@ -174,6 +190,9 @@ function getSelectList($id, $class, $time)
       
 }
 
+/* #193
+ * Returns country drop-down list
+ */
 function selectCountry($search)
 {   
     $country = "";
@@ -459,54 +478,52 @@ function selectCountry($search)
     return $country;
 }
 
-/*
+/* #481
  * Converts date for storing/retrieving date in db
  * $direction - true: 2015-03-23 to 23 March 2015
  * $direction - false:  23 March 2015 to 2015-03-23
  */    
-    function convertDate($theDate, $direction)
+function convertDate($theDate, $direction)
+{
+    //2015-03-23
+    $months[0] = "01January";
+    $months[1] = "02February";
+    $months[2] = "03March";
+    $months[3] = "04April";
+    $months[4] = "05May";
+    $months[5] = "06June";
+    $months[6] = "07July";
+    $months[7] = "08August";
+    $months[8] = "09September";
+    $months[9] = "10October";
+    $months[10] = "11November";
+    $months[11] = "12December";
+
+    $i = 0;
+
+    if($direction)
     {
-        //2015-03-23
-        $months[0] = "01January";
-        $months[1] = "02February";
-        $months[2] = "03March";
-        $months[3] = "04April";
-        $months[4] = "05May";
-        $months[5] = "06June";
-        $months[6] = "07July";
-        $months[7] = "08August";
-        $months[8] = "09September";
-        $months[9] = "10October";
-        $months[10] = "11November";
-        $months[11] = "12December";
-        
-        $i = 0;
-        
-        if($direction)
+        $monthNumber = substr($theDate, 5, 2);
+        for($i=0; $i<12; $i++)
         {
-            $monthNumber = substr($theDate, 5, 2);
-            for($i=0; $i<12; $i++)
+            if(substr($months[$i], 0, 2) == $monthNumber)
             {
-                if(substr($months[$i], 0, 2) == $monthNumber)
-                {
-                    return substr($theDate, 8, 2)." ".substr($months[$i],2)." ".substr($theDate, 0, 4);
-                }
-            }
-        }
-        else
-        {
-            $i = 0;
-            $monthLength = strlen($theDate) - 8;
-            $monthName = substr($theDate, 3, $monthLength);
-            
-            for($i=0; $i<12; $i++)
-            {
-                if(substr($months[$i], 2) == $monthName)
-                {
-                    return substr($theDate, $monthLength+4, 4)."-".substr($months[$i], 0, 2)."-".substr($theDate, 0, 2);
-                }
+                return substr($theDate, 8, 2)." ".substr($months[$i],2)." ".substr($theDate, 0, 4);
             }
         }
     }
-    
-    
+    else
+    {
+        $i = 0;
+        $monthLength = strlen($theDate) - 8;
+        $monthName = substr($theDate, 3, $monthLength);
+
+        for($i=0; $i<12; $i++)
+        {
+            if(substr($months[$i], 2) == $monthName)
+            {
+                return substr($theDate, $monthLength+4, 4)."-".substr($months[$i], 0, 2)."-".substr($theDate, 0, 2);
+            }
+        }
+    }
+}

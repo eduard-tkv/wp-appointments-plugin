@@ -87,7 +87,7 @@ class ManipulateTables
 		     ));
     }
     
-/* #70
+/* #90
  * Creates customer details table (personal details) and populates it with sample data
  */
     public function createCustomerDetailsTable()
@@ -138,7 +138,7 @@ class ManipulateTables
 		     ));
     }
 
-/* #118
+/* #141
  * Creates Appointments Table. Holds appoinment details.
  * id_cd is the foreign key from Customer Details
  */
@@ -191,7 +191,7 @@ class ManipulateTables
 		     ));
     }
 
-/* #169
+/* #194
  * Creates an Address table. Holds addresses. id_cd is the foreign key from Customer Details
  */    
     public function createCustomerAddressTable()
@@ -248,7 +248,7 @@ class ManipulateTables
 		     ));
     }
 
-/* #221
+/* #251
  * Creates a Payments table. Holds payments. id_cd is the foreign key from Customer Details
  */     
     public function createPaymentsTable()
@@ -301,7 +301,7 @@ class ManipulateTables
  * THE FOLLOWING ARE INSERT FUNCTIONS
  */    
     
-/* #272
+/* #304
  * Receives data from ed-da-delta-appointments.php
  * and performs an insert into customerDetails table
  * to create a NEW record. The return value is id_cd which is id for Customer Details
@@ -344,7 +344,7 @@ class ManipulateTables
         }
     }
     
-/* #315
+/* #347
  * Receives data from ed-da-delta-appointments.php
  * and performs insertion into Customer Address table
  */
@@ -377,7 +377,7 @@ class ManipulateTables
  * The following are SEARCH functions
  */
 
-/* #347
+/* #380
  * Performs search based on various criteria from both Customer Details
  * and Address tables, values supplied by the user
  */
@@ -499,7 +499,7 @@ class ManipulateTables
         return $wpdb->get_results("SELECT first_name, last_name FROM $this->table_customerDetails WHERE first_name = $fname AND last_name=$lname");
     }
 
-/* #408
+/* #502
  * - Gets edit values i.e. existing values (customer details and address) for a record so that it can be edited, added etc
  * - Performs actual update
  */    
@@ -612,7 +612,7 @@ class ManipulateTables
         
     }
 
-/* #521
+/* #615
  * Inserting data into appointment or payment table
  */    
      public function makeApptandPay($customerId, &$tableDetails, $actionName)
@@ -650,7 +650,7 @@ class ManipulateTables
 
     }
 
-/* #559
+/* #653
  * Retrieves data from all tables pertaining to a certain record
  * Used to display all data
  * 
@@ -687,7 +687,7 @@ class ManipulateTables
  * These are ALTER, DELETE functions
  */
 
-/* #596
+/* #690
  * Deletes an appointment based on id_cd, date and time 
  */
     public function deleteAppt($id_cd, $actionName, $date, $time)
@@ -697,7 +697,7 @@ class ManipulateTables
         return $wpdb->delete( $this->table_appointments, $where );
     }
 
-/* $606
+/* $700
  * Deletes a payment record based on id_cd, date and amount 
  */
     public function deletePay($id_cd, $date, $amount)
@@ -707,7 +707,7 @@ class ManipulateTables
         return $wpdb->delete( $this->table_payments, $where );
     }
     
-/* #616
+/* #710
  * Deletes a record
  */    
     public function deleteRecords($id_cd)

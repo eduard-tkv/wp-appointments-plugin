@@ -37,7 +37,7 @@ jQuery(document).ready(function($)
     $("#searchResultsDiv").hide();
 
 /* #39
- * Add Customer function. Collects values from the New Customer Form and 
+ * Add Customer function (adding personal details i.e. name etc). Collects values from the New Customer Form and 
  * sends them to ed-da-delta-appointments-plugin.php::ed_da_delta_appointments_addcustomer_action_callback #110 for creating a new record
  * If a positive response is received the page will reload to reflect changes.
  */
@@ -188,7 +188,7 @@ jQuery(document).ready(function($)
                 };
         
         //alert(data['id_cd']);
-        
+        // editKeys and editValues are global vars
         jQuery.post(ajax_object.ajax_url, data, function(response){
                 editKeys = [];
                 editValues = [];
@@ -267,7 +267,7 @@ jQuery(document).ready(function($)
     });
     
 
-/* #275
+/* #270
  * Collects data from edit form, invoked by clicking "Save" button after existing values have been retrieved
  * by clicking "Edit" link that appears in search results
  * New values are collected from the edit form and sent to ed-da-delta-appointments-plugin.php
@@ -329,6 +329,7 @@ jQuery(document).ready(function($)
         newValues.action = 'ed_da_delta_appointments_fulledit_action';
         newValues.action_name = 'fullEdit';
 
+        // Validating values, basic validation, mostly to make sure no illegal characters are entered
         validateMe(newValues['first_name'], "#edit_First_Name", "First Name cannot be blank or contain non letters.", 1, countErr, "a");
         validateMe(newValues['middle_name'], "#edit_Middle_Name", "Middle Name cannot contain non letters.", 0, countErr, "a");
         validateMe(newValues['last_name'], "#edit_Last_Name", "Last Name cannot be blank or contain non letters.", 1, countErr, "a");
@@ -372,7 +373,7 @@ jQuery(document).ready(function($)
 
     });//#buttonSave End
     
-/* #378
+/* #376
  * Creates a Search Again form, a search form that appears underneath the first time search results
  * so the user can search repeatedly.
  */
@@ -417,15 +418,13 @@ jQuery(document).ready(function($)
     });
     
     
-/* #423
+/* #421
  * Display all info pertaining to a certain record, display Delete (deletes the record), Make Appointment, Enter Payment links
  * the 'display all info' link/button appears in search results
 */
     jQuery( document ).on( "click", "#displayInfo", function()
     {  
         var parentName = $( this ).parent().attr( 'name' );//id_cd - primary id, has been already set in search results, not displayed
-        
-        //alert(parentName);
         
         //Value whether it is to display info or perform a different action
         var thisName = $( this ).attr( 'name' );
@@ -447,7 +446,7 @@ jQuery(document).ready(function($)
         
     });
     
-/* #453
+/* #449
  * Creates a new appointment or new payment form and populates.
  * 'Make Appointment' or 'Enter Payment' links/buttons appear in search results
  */
@@ -536,7 +535,7 @@ jQuery(document).ready(function($)
         
     });
 
-/* #542
+/* #538
  * "Make Appointment" button on the Make Appointment form created and populated with first and last names.
  * Collects appointment info vield values for further insertion into the db
  */
@@ -620,7 +619,7 @@ jQuery(document).ready(function($)
 
 
 
-/* #632
+/* #622
  * Button Enter Payment on the create appointment form after you click Display All Info
  * Performs actual payment info creation
  * Unlike Make Appointment doesn't check if there are other payments on the same day as there
@@ -683,7 +682,7 @@ jQuery(document).ready(function($)
         } else { alert("Please correct errors."); }
     });
 
-/* #709 - delRecord
+/* #685 - delRecord
  * Deletes a record and all associated data i.e. appointments, payments
  */    
     jQuery(document).on("click", "#delRecord", function(){
@@ -711,7 +710,7 @@ jQuery(document).ready(function($)
     
     });
 
-/* #740
+/* #713
  * Delete an Appointment, no editing, if they want to edit, they need to delete and make an appt
 */
     jQuery( document ).on( "click", "#delAppt", function()
@@ -760,7 +759,7 @@ jQuery(document).ready(function($)
     });
 
 
-/* #800
+/* #762
  * Delete a payment record, invoked by clicking on Delete link after performing a search and
  * displaying all info (Display All Info link) or by clicking Delete link from within the Payments tab.
  */

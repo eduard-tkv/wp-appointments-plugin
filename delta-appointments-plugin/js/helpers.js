@@ -52,7 +52,9 @@
     newValuesKeysAddy[6] = 'postal_code';
 
 
-
+/* #55
+ * Returns drop-down lists for month, year, day
+ */
 function getSelectList(id, theClass)
 {
     var theYear = "";
@@ -152,8 +154,8 @@ function getSelectList(id, theClass)
       
 }
 
-/*
- * Will return a select option list with selected value pre-selected
+/* #157
+ * Will return a drop-down list with selected value pre-selected
  * Used in edit form, to populate birth date with values retrieved from db
  */
 function getSelectListExt(id, theClass, selected)
@@ -209,6 +211,10 @@ function getSelectListExt(id, theClass, selected)
     }
 }
 
+/* #214
+ * Checks whether date items were selected i.e. if it's Year it means 
+ * year has not been selected and the respective date items will be highlighted
+ */
 function isItValid(argumentz)
 {
     var argId = "the" + argumentz; //i.e. theYear, which is id for respective tag, so that we can change color back to original
@@ -239,11 +245,17 @@ function isItValid(argumentz)
     
 }
 
+/* #248
+ * Returns red color css style to mark invalid entries
+ */
 function formError(argumentz)
 {
     document.getElementById(argumentz).style.color = "#D11919";
 }
 
+/* #256
+ * Converts aNyCaSE string to Anycase string
+ */
 function convertValues(editValue)
 {
     n = editValue.indexOf("_");
@@ -255,12 +267,15 @@ function convertValues(editValue)
     });    
 }
 
+/* #270
+ * Reloads the page
+ */
 function reloadz()
 {
      location.reload();
 }
 
-/*
+/* #278
  * AJAX part of jQuery DisplayInfo function, it is used by editApptPay function too
  * 
  * It display all information found for a particular record i.e. personal details, appointments and payments
@@ -354,16 +369,15 @@ function displayInfo(data, actionName)
         });
 }
 
-
+/* #372
+ * Ajax part of add new record function.
+ */
 function ajaxAddRecord(data, dataCheck)
 {
     var confirmCreate;
         
         jQuery.post(ajax_object.ajax_url, dataCheck, function(response) 
         {
-            //alert(data['mname']);
-            //alert(response);
-            
             if(response == 1) { confirmCreate = confirm("A record with the same name: " + dataCheck['fname'] + " " + dataCheck['lname'] + " already exists. Are you sure you want to create a new record?"); }
             if (response == 0 || confirmCreate == true)
             {
@@ -383,8 +397,8 @@ function ajaxAddRecord(data, dataCheck)
         });
 }
 
-/* #277
- * Sends an ajax request to ed-da-delta-appointments.php #263 to delete the record and associatd tables
+/* #400
+ * Sends an ajax request to ed-da-delta-appointments.php to delete the record and associatd tables
  */
 function ajaxDelRecord(data)
 {
@@ -400,6 +414,10 @@ function ajaxDelRecord(data)
     
 }
 
+/* #417
+ * Returns certain number of dots to style the prompt window
+ * i.e. Name.......Svenska
+ */
 function returnDots(str, value)
 {
     var dots = value - str.length ;
@@ -410,7 +428,9 @@ function returnDots(str, value)
     else if (str.length >=14) {return "\t";}
 }
 
-
+/* #431
+ * Checks if the object is empty
+ */
 function isObjEmpty(obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
@@ -420,6 +440,9 @@ function isObjEmpty(obj) {
     return true;
 }
 
+/* #443
+ * Returns object's length
+ */
 function objLength(obj)
 {
     var length=0, prop;
