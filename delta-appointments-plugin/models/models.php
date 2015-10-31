@@ -768,6 +768,5 @@ class ManipulateTables
 
         $wpdb->query($sql);
     }   
-
     
 } // End of class ManipulateTables
