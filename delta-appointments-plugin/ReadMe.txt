@@ -17,7 +17,7 @@ controller.js is the Javascript controller responsible for dynamically displayin
 
 helpers.js and validation.js are auxiliary files for controller.js
 
-models.php is the Model files that communicates with ed-da-delta-appointments.php to send/receive/retrieve database data. 
+models.php is the Model file that communicates with ed-da-delta-appointments.php to send/receive/retrieve database data. 
 
 helpers-model.php is the auxiliary file for models.php
 
