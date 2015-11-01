@@ -6,7 +6,7 @@ file names, functions, code optimization etc.
 Licensed under GPL http://www.gnu.org/licenses/gpl.html
 
 1. Description
-This is an appointment management plugin. It creates database table where it stores personal data of your clients such as name, birth date, email, telephone numbers, address, appointment and payments. It is run on the administrator side of Wordpress i.e. dashboard. When you install the plugin you will see a Delta Appointments icon on the left hand side.
+This is an appointment management plugin. It creates database tables where it stores personal data of your clients such as name, birth date, email, telephone numbers, address, appointment and payments. It is run on the administrator side of Wordpress i.e. dashboard. When you install the plugin you will see a Delta Appointments icon on the left hand side.
 
 The plugin has a tabbed view i.e. search tab, records tab, appointments tab, payments tab, new record tab. The plugin can be used to keep personal, appointment, payment records for your clients or for your own personal use.
 
