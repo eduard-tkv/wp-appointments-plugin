@@ -37,5 +37,5 @@ A sample comment featuring its own reference number and the numbers in other fil
 // to insert a new row in customerDetails table
 
 4. Screenshot
------------
+
 [![screenshot](screenshot.jpg)](screenshot.jpg)
