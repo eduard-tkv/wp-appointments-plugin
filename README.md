@@ -36,5 +36,6 @@ A sample comment featuring its own reference number and the numbers in other fil
 // and calls models.php::insertCustomerAddressTable #223
 // to insert a new row in customerDetails table
 
-Screenshot
+4. Screenshot
+-----------
 [![screenshot](screenshot.jpg)](screenshot.jpg)
