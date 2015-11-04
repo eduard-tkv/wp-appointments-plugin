@@ -49,7 +49,7 @@ class DeltaAppointmentsViews
         
         global $wpdb;
         
-        /* #32
+        /* #52
          * table_tabs is updated on add new record, delete record, edit record,
          * delete payment, delete appointment. There is just one row with two values 
          * id which is always 1 and tab value that can be searchTab, appointmentTab,
