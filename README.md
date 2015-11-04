@@ -31,8 +31,10 @@ This is how various pieces of code are cross-referenced, ideally and in theory. 
 Note that the reference number can and will change depending on the alterations made to the code, and hopefully they will be not too far from each other i.e. the code line number and the reference number. Whenever a mismatch noticed, an update is necessary.
 
 A sample comment featuring its own reference number and the numbers in other files.
-/* #77
- * Add new customer/record. Receives data from delta-appointments-plugin.js #16
- * and calls models.php::insertCustomerAddressTable #223
- * to insert a new row in customerDetails table
- */
+// #77
+// Add new customer/record. Receives data from delta-appointments-plugin.js #16
+// and calls models.php::insertCustomerAddressTable #223
+// to insert a new row in customerDetails table
+
+Screenshot
+[![screenshot](screenshot.jpg)](screenshot.jpg)
