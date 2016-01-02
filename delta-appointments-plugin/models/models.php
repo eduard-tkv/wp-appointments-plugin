@@ -115,26 +115,26 @@ class ManipulateTables
 		$this->table_customerDetails, 
 		array( 
 			'first_name' => 'Edward', 
-            'middle_name' => 'Ontario',
+                        'middle_name' => 'Ontario',
 			'last_name' => 'Trentovski',
-            'email' => 'edward@edward.com',
-            'phone_home' => '4168885555',
-            'phone_cell' => '4168885556',
-            'birth_date' => '1990-10-10',
-            'notes' => 'check out my other plugins and themes'
+                        'email' => 'edward@edward.com',
+                        'phone_home' => '4168885555',
+                        'phone_cell' => '4168885556',
+                        'birth_date' => '1990-10-10',
+                        'notes' => 'check out my other plugins and themes'
 		     ));
     
         $wpdb->insert( 
 		$this->table_customerDetails, 
 		array( 
 			'first_name' => 'Julia', 
-            'middle_name' => 'Manitoba',
+                        'middle_name' => 'Manitoba',
 			'last_name' => 'Foreign',
-            'email' => 'julia@foreign.com',
-            'phone_home' => '4168887777',
-            'phone_cell' => '4168887776',
-            'birth_date' => '1998-02-06',
-            'notes' => 'check out my other plugins and themes'
+                        'email' => 'julia@foreign.com',
+                        'phone_home' => '4168887777',
+                        'phone_cell' => '4168887776',
+                        'birth_date' => '1998-02-06',
+                        'notes' => 'check out my other plugins and themes'
 		     ));
     }
 
@@ -172,22 +172,22 @@ class ManipulateTables
 		$this->table_appointments, 
 		array( 
 			'date' => '2015-01-23', 
-            'time' => '04:00 PM',
+                        'time' => '04:00 PM',
 			'purpose' => 'Hair Cut',
-            'venue' => 'Curly Hair Salon',
-            'notes' => 'my fave customer $500 tip for $20 hair cut',
-            'id_cd' => 1
+                        'venue' => 'Curly Hair Salon',
+                        'notes' => 'my fave customer $500 tip for $20 hair cut',
+                        'id_cd' => 1
 		     ));
     
         $wpdb->insert( 
 		$this->table_appointments, 
 		array( 
 			'date' => '2015-03-22',
-            'time' => '04:30 PM',
+                        'time' => '04:30 PM',
 			'purpose' => 'Hair Dyeing',
-            'venue' => 'Curly Hair Salon',
-            'notes' => 'least fave customer no tip',
-            'id_cd' => 2
+                        'venue' => 'Curly Hair Salon',
+                        'notes' => 'least fave customer no tip',
+                        'id_cd' => 2
 		     ));
     }
 
@@ -226,12 +226,12 @@ class ManipulateTables
 		array( 
 			'country' => 'Canada', 
 			'city' => 'Toronto',
-            'province' => 'Ontario',
-            'street_name' => 'Bloor St',
-            'street_number' => '220',
-            'apt_number' => '3211',
-            'postal_code' => 'M5F4C3',
-            'id_cd' => 1
+                        'province' => 'Ontario',
+                        'street_name' => 'Bloor St',
+                        'street_number' => '220',
+                        'apt_number' => '3211',
+                        'postal_code' => 'M5F4C3',
+                        'id_cd' => 1
 		     ));
     
         $wpdb->insert( 
@@ -239,12 +239,12 @@ class ManipulateTables
 		array( 
 			'country' => 'Canada', 
 			'city' => 'Toronto',
-            'province' => 'Ontario',
-            'street_name' => 'Yonge St',
-            'street_number' => '330',
-            'apt_number' => '11',
-            'postal_code' => 'M5G5V5',
-            'id_cd' => 2
+                        'province' => 'Ontario',
+                        'street_name' => 'Yonge St',
+                        'street_number' => '330',
+                        'apt_number' => '11',
+                        'postal_code' => 'M5G5V5',
+                        'id_cd' => 2
 		     ));
     }
 
@@ -281,9 +281,9 @@ class ManipulateTables
 		array( 
 			'date' => '2015-07-22', 
 			'amount' => 200,
-            'purpose' => 'hair cut',
-            'notes' => '',
-            'id_cd' => 1
+                        'purpose' => 'hair cut',
+                        'notes' => '',
+                        'id_cd' => 1
 		     ));
     
         $wpdb->insert( 
@@ -291,9 +291,9 @@ class ManipulateTables
 		array( 
 			'date' => '2015-08-14', 
 			'amount' => 300,
-            'purpose' => 'hair dyeing',
-            'notes' => 'these are notes',
-            'id_cd' => 2
+                        'purpose' => 'hair dyeing',
+                        'notes' => 'these are notes',
+                        'id_cd' => 2
 		     ));
     }
 
@@ -321,13 +321,13 @@ class ManipulateTables
 		$this->table_customerDetails, 
 		array( 
 			'first_name' => $customerDetailsTable['first_name'], 
-            'middle_name' => $customerDetailsTable['middle_name'],
+                        'middle_name' => $customerDetailsTable['middle_name'],
 			'last_name' => $customerDetailsTable['last_name'],
-            'email' => $customerDetailsTable['email'],
-            'phone_home' => $customerDetailsTable['phone_home'],
-            'phone_cell' => $customerDetailsTable['phone_cell'],
-            'birth_date' => $customerDetailsTable['birth_date'],
-            'notes' => $customerDetailsTable['notes']
+                        'email' => $customerDetailsTable['email'],
+                        'phone_home' => $customerDetailsTable['phone_home'],
+                        'phone_cell' => $customerDetailsTable['phone_cell'],
+                        'birth_date' => $customerDetailsTable['birth_date'],
+                        'notes' => $customerDetailsTable['notes']
 		     ));       
        
         // Need to use ==== to take into account the data type because if it returns 0 it means
@@ -357,13 +357,13 @@ class ManipulateTables
 		$this->table_customerAddress, 
 		array( 
 			'country' => $customerAddressTable['country'], 
-            'province' => $customerAddressTable['province'],
-            'city' => $customerAddressTable['city'],
+                        'province' => $customerAddressTable['province'],
+                        'city' => $customerAddressTable['city'],
 			'street_name' => $customerAddressTable['street_name'],
-            'street_number' => $customerAddressTable['street_number'],
-            'apt_number' => $customerAddressTable['apt_number'],
-            'postal_code' => $customerAddressTable['postal_code'],
-            'id_cd' => $customerAddressTable['id_cd']
+                        'street_number' => $customerAddressTable['street_number'],
+                        'apt_number' => $customerAddressTable['apt_number'],
+                        'postal_code' => $customerAddressTable['postal_code'],
+                        'id_cd' => $customerAddressTable['id_cd']
 		     ));       
        
         // 0 means no rows were updated, False means there was an error. 
